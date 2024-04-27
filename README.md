@@ -5,7 +5,6 @@
 
 
 ## Resumo
-2 anos de experiência na área de desenvolvimento web com .Net e Java desde 2019, e me dedicado ao desenvolvimento android com Java e Kotlin.
 
 📚 Engenheiro de Software
 
