@@ -1,10 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif; /* Use Roboto como a fonte principal */
-    background-image: url("/assets/img/background.gif"); /* Caminho para o arquivo local */
+    font-family: 'Roboto', sans-serif;
+    background-image: url('https://raw.githubusercontent.com/HelloQoppa/HelloQoppa/main/assets/img/background.gif');
     background-size: cover;
-  }
+}
   
   .container-home {
     text-align: center;
