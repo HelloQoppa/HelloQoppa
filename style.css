@@ -4,6 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     background-image: url('https://raw.githubusercontent.com/HelloQoppa/HelloQoppa/main/assets/img/background.gif');
     background-size: cover;
+    background-repeat: no-repeat;
 }
   
   .container-home {
