@@ -9,7 +9,7 @@ body {
   background-attachment: fixed;
   align-items: center;
   justify-content: center;
-  display: flex;
+  /* display: flex; */
 
 }
 
@@ -21,7 +21,7 @@ body {
     /* Para evitar problemas em dispositivos móveis */
     align-items: center;
     justify-content: center;
-    display: flex;
+    /* display: flex; */
   }
 }
 
