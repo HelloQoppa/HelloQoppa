@@ -13,6 +13,7 @@ body {
 
 }
 
+
 @media only screen and (max-width: 600px) {
   body {
     background-size: 700%;
@@ -56,18 +57,31 @@ h2 {
 
 .icons {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
 }
 
 .icons a {
   color: white;
-  /* Altera a cor dos ícones para branco */
   margin-right: 42px;
   /* Adiciona espaçamento entre os ícones */
+}
+
+.icon {
+  text-align: center;
 }
 
 .icons i {
   font-size: 42px;
   /* Ajuste o tamanho dos ícones conforme necessário */
+}
+.icon p {
+  margin-top: 10px;
+  margin-right:42px;
+  font-size: 14px;
+  color: #ffffff; /* Você pode ajustar a cor e o tamanho da fonte conforme necessário */
 }
 
 
@@ -80,10 +94,6 @@ h2 {
   width: 100%;
   text-align: center;
 }
-
-
-
-
 
 .card {
   width: 300px;
