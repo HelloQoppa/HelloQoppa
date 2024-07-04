@@ -13,6 +13,10 @@ body {
 
 }
 
+.rounded-circle {
+  border-radius: 50%;
+}
+
 
 @media only screen and (max-width: 600px) {
   body {
