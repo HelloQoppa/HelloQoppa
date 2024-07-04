@@ -10,12 +10,8 @@ body {
   align-items: center;
   justify-content: center;
   /* display: flex; */
-
 }
 
-.rounded-circle {
-  border-radius: 50%;
-}
 
 
 @media only screen and (max-width: 600px) {
@@ -30,14 +26,6 @@ body {
   }
 }
 
-.container-home {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-}
 
 @media (max-width: 900px) {
   .container-home {
@@ -81,11 +69,13 @@ h2 {
   font-size: 42px;
   /* Ajuste o tamanho dos ícones conforme necessário */
 }
+
 .icon p {
   margin-top: 10px;
-  margin-right:42px;
+  margin-right: 42px;
   font-size: 14px;
-  color: #ffffff; /* Você pode ajustar a cor e o tamanho da fonte conforme necessário */
+  color: #ffffff;
+  /* Você pode ajustar a cor e o tamanho da fonte conforme necessário */
 }
 
 
@@ -126,4 +116,17 @@ h2 {
   padding: 10px;
   font-size: 14px;
   color: #000000;
+}
+
+.container-home {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.rounded-circle {
+  border-radius: 50%;
 }
