@@ -36,7 +36,7 @@
         }
 
         .pagination {
-            display: flexbox;
+            display: flex;
             justify-content: flex-start;
             margin-bottom: 20px;
             /* Ajuste conforme necessário */
@@ -66,7 +66,7 @@
             <h1 class="display-4">Artigos</h1>
             <p class="lead">Decidi criar este blog para consolidar meu aprendizado e compartilhar conhecimentos.</p>
             <br>
-            <a href="index.html" class="btn btn-success"> <i class="bi bi-house-door"></i> Ir para o Início </a>
+            <a style="margin-right: 1%;" href="index.html" class="btn btn-success"> Ir para o Início </a>
         </div>
     </div>
 
@@ -79,125 +79,119 @@
                     <li class="list-group-item"><a href="#" class="category-link" data-category="todos">Todos</a></li>
                     <li class="list-group-item"><a href="#" class="category-link"
                             data-category="tecnologia">Tecnologia</a></li>
-                    <!-- <li class="list-group-item"><a href="#" class="category-link" data-category="educacao">Educação</a> -->
+                    <li class="list-group-item"><a href="#" class="category-link" data-category="educacao">Educação</a>
+                    <li class="list-group-item"><a href="#" class="category-link"
+                            data-category="privacidade">Privacidade</a>
+
                     </li>
                 </ul>
             </div>
 
             <!-- Cards de Posts do Blog -->
             <div class="col-md-9" id="blog-posts">
-                <div class="col mb-4 tecnologia post" data-date="2024-07-02">
-                    <div class="card h-100">
-                        <img src="https://via.placeholder.com/600x600" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Título do Post 1 (Tecnologia)</h5>
-                            <p class="card-text">Este é um breve resumo do conteúdo do post de tecnologia.</p>
-                            <p class="card-text"><small class="text-muted">02/07/2024</small></p>
-                            <a href="#" class="btn btn-primary">Leia mais</a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Adicione mais posts conforme necessário -->
+                <!-- Aqui serão adicionados dinamicamente os posts -->
             </div>
         </div>
 
-        <!-- Paginação -->
-        <nav aria-label="Navegação de página">
-            <ul class="pagination justify-content-center mt-4" id="pagination">
-                <!-- Paginação gerada dinamicamente -->
-            </ul>
-        </nav>
-    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="postModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="postContent" width="100%" height="500px"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    
+        <!-- Bootstrap 5 JS e dependências -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Script para carregar posts do JSON e implementar filtro por categoria e paginação -->
+        <script>
+            $(document).ready(function () {
+                const itemsPerPage = 3; // Número de posts por página
+                const $blogPosts = $('#blog-posts'); // Elemento onde os posts do blog serão inseridos
 
-    <!-- Bootstrap 5 JS e dependências -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Script para filtrar posts por categoria e implementar paginação -->
-    <script>
-        $(document).ready(function () {
-            const itemsPerPage = 1; // Número de posts por página
-            const $posts = $('.post');
-            const $blogPosts = $('#blog-posts');
-            let filteredPosts = $posts;
-            let totalItems = filteredPosts.length;
-            let totalPages = Math.ceil(totalItems / itemsPerPage);
-
-            function showPage(page) {
-                filteredPosts.addClass('d-none');
-                const start = (page - 1) * itemsPerPage;
-                const end = start + itemsPerPage;
-                filteredPosts.slice(start, end).removeClass('d-none');
-                $('.page-item').removeClass('active');
-                $(`#page-${page}`).addClass('active');
-            }
-
-            function createPagination() {
-                const $pagination = $('#pagination');
-                $pagination.empty();
-
-                const $prev = $('<li class="page-item"><a class="page-link" href="#" tabindex="-1">Anterior</a></li>');
-                $prev.click(function (e) {
-                    e.preventDefault();
-                    const currentPage = parseInt($pagination.find('.active').text());
-                    if (currentPage > 1) showPage(currentPage - 1);
-                });
-                $pagination.append($prev);
-
-                for (let i = 1; i <= totalPages; i++) {
-                    const $pageItem = $(`<li class="page-item" id="page-${i}"><a class="page-link" href="#">${i}</a></li>`);
-                    $pageItem.click(function (e) {
-                        e.preventDefault();
-                        showPage(i);
+                // Função para carregar posts do arquivo JSON
+                function loadPosts() {
+                    $.getJSON('posts.json', function (data) {
+                        // Ordenar os posts por data (do mais recente para o mais antigo)
+                        data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        // Exibir os posts carregados
+                        showPosts(data.posts);
                     });
-                    $pagination.append($pageItem);
                 }
 
-                const $next = $('<li class="page-item"><a class="page-link" href="#">Próximo</a></li>');
-                $next.click(function (e) {
+                // Função para exibir os posts no HTML
+                function showPosts(posts) {
+                    $blogPosts.empty(); // Limpar posts existentes
+                    posts.forEach(post => {
+                        const postHtml = `
+                        <div class="col mb-4 ${post.category}" data-date="${post.date}">
+                            <div class="card h-100">
+                                <img src="${post.image}" class="card-img-top" alt="${post.title}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${post.title}</h5>
+                                    <p class="card-text">${post.date}</p>
+                                    <a href="#" class="btn btn-primary read-more" data-bs-toggle="modal" data-bs-target="#postModal" data-title="${post.title}" data-fileurl="${post.fileUrl}">Leia mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        // Adicionar cada post ao container
+                        $blogPosts.append(postHtml);
+                    });
+                }
+
+                // Carregar todos os posts na primeira página ao iniciar
+                loadPosts();
+
+                // Evento de clique para filtrar posts por categoria
+                $('.category-link').click(function (e) {
                     e.preventDefault();
-                    const currentPage = parseInt($pagination.find('.active').text());
-                    if (currentPage < totalPages) showPage(currentPage + 1);
+                    const category = $(this).data('category');
+                    // Filtrar e exibir os posts pela categoria selecionada
+                    filterPosts(category);
                 });
-                $pagination.append($next);
-            }
 
-            function filterPosts(category) {
-                if (category === 'todos') {
-                    filteredPosts = $posts;
-                } else {
-                    filteredPosts = $posts.filter(`.${category}`);
+                // Função para filtrar os posts por categoria
+                function filterPosts(category) {
+                    $.getJSON('posts.json', function (data) {
+                        let filteredPosts = data.posts;
+                        // Filtrar posts pela categoria, se não for "todos"
+                        if (category !== 'todos') {
+                            filteredPosts = data.posts.filter(post => post.category === category);
+                        }
+                        // Ordenar os posts filtrados por data
+                        filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        // Exibir os posts filtrados
+                        showPosts(filteredPosts.slice(0, itemsPerPage));
+                    });
                 }
-                filteredPosts.sort((a, b) => new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date')));
-                $blogPosts.empty().append(filteredPosts);
-                totalItems = filteredPosts.length;
-                totalPages = Math.ceil(totalItems / itemsPerPage);
-                showPage(1);
-                createPagination();
-            }
 
-            $('.category-link').click(function (e) {
-                e.preventDefault();
-                const category = $(this).data('category');
-                filterPosts(category);
-            });
+                // Evento de clique para exibir o modal com o conteúdo completo do post
+                $(document).on('click', '.read-more', function (e) {
+                    e.preventDefault();
+                    const title = $(this).data('title');
+                    const fileUrl = $(this).data('fileurl');
 
-            // Ordenar os posts por data (do mais antigo para o mais novo) ao carregar a página
-            $(window).on('load', function () {
-                filteredPosts.sort((a, b) => new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date')));
-                $blogPosts.empty().append(filteredPosts);
-                totalItems = filteredPosts.length;
-                totalPages = Math.ceil(totalItems / itemsPerPage);
-                showPage(1);
-                createPagination();
+                    // Definir o título do modal e o conteúdo do iframe para o URL do arquivo
+                    $('#postModalLabel').text(title);
+                    $('#postContent').attr('src', fileUrl);
+                });
             });
-        });
-    </script>
+        </script>
+
 </body>
 
 </html>
